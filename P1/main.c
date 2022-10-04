@@ -3,96 +3,87 @@
 
 #define ACCEPT 1
 #define REJECT 0
-char fita[100] = "/* Comentario **/";
-
-int q0(char symbol);
-int q1(char symbol);
-int q2(char symbol);
-int q3(char symbol);
-int q4();
+#define Q1 1
+#define Q2 2
+#define Q3 3
+#define Q4 4
+#define Q5 5
 
 int main(int argc, char const *argv[])
 {
-    /* printf("Digite o comentário:");
-    scanf("%s", &fita);
-    printf("%s\n", fita); */
-
-    if (q0(0))
+    char fita[] = "Comentario */";
+    int i = 0;
+    int isAccepted = 1;
+    int state = Q1;
+    while (state != Q5 && i < strlen(fita) && isAccepted == 1)
     {
-        printf("\n> ACCEPTED\n");
+        switch (state)
+        {
+        case Q1:
+            printf("Q1 - %c\n", fita[i]);
+            switch (fita[i])
+            {
+            case '/':
+                i++;
+                state = Q2;
+                break;
+            default:
+                isAccepted = REJECT;
+                break;
+            }
+            break;
+        case Q2:
+            printf("Q2 - %c\n", fita[i]);
+            switch (fita[i])
+            {
+            case '*':
+                i++;
+                state = Q3;
+                break;
+            default:
+                isAccepted = REJECT;
+                break;
+            }
+            break;
+        case Q3:
+            printf("Q3 - %c\n", fita[i]);
+            switch (fita[i])
+            {
+            case '*':
+                i++;
+                state = Q4;
+                break;
+            default:
+                i++;
+                break;
+            }
+            break;
+        case Q4:
+            printf("Q4 - %c\n", fita[i]);
+            switch (fita[i])
+            {
+            case '*':
+                i++;
+                break;
+            case '/':
+                state = Q5;
+                break;
+            default:
+                i++;
+                state = Q4;
+                break;
+            }
+            break;
+        }
+    }
+
+    if (state == Q5 && isAccepted == ACCEPT)
+    {
+        printf("\n%s\n", fita);
+        printf("> ACCEPTED\n");
         return 0;
     }
-    printf("\n> REJECTED\n");
-
+    printf("\n%s\n", fita);
+    printf("> REJECTED\n");
     return 0;
-}
-
-int q0(char symbol)
-{
-    printf("q0 - %c\n", fita[symbol]);
-    switch (fita[symbol++])
-    {
-    case '/':
-        return q1(symbol);
-        break;
-
-    default:
-        return REJECT;
-        break;
-    }
-}
-
-int q1(char symbol)
-{
-    printf("q1 - %c\n", fita[symbol]);
-    switch (fita[symbol++])
-    {
-    case '*':
-        return q2(symbol);
-        break;
-
-    default:
-        return REJECT;
-        break;
-    }
-}
-
-int q2(char symbol)
-{
-    printf("q2 - %c\n", fita[symbol]);
-    switch (fita[symbol++])
-    {
-    case '*':
-        return q3(symbol);
-        break;
-
-    default:
-        return q2(symbol);
-        break;
-    }
-
-    // return REJECT;
-}
-
-int q3(char symbol)
-{
-    printf("q3 - %c\n", fita[symbol]);
-    switch (fita[symbol++])
-    {
-    case '*':
-        return q3(symbol);
-        break;
-
-    case '/':
-        return q4(symbol);
-        break;
-
-    default:
-        break;
-    }
-}
-
-int q4()
-{
-    return ACCEPT;
 }
