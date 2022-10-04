@@ -11,16 +11,18 @@
 
 int main(int argc, char const *argv[])
 {
-    char fita[] = "Comentario */";
+    char fita[] = "/* Comentario *";
+    char lex[strlen(fita)];
     int i = 0;
-    int isAccepted = 1;
+    int isAccepted = ACCEPT;
     int state = Q1;
-    while (state != Q5 && i < strlen(fita) && isAccepted == 1)
+    while (state != Q5 && i < strlen(fita) && isAccepted)
     {
         switch (state)
         {
         case Q1:
             printf("Q1 - %c\n", fita[i]);
+            lex[i] = fita[i];
             switch (fita[i])
             {
             case '/':
@@ -34,6 +36,7 @@ int main(int argc, char const *argv[])
             break;
         case Q2:
             printf("Q2 - %c\n", fita[i]);
+            lex[i] = fita[i];
             switch (fita[i])
             {
             case '*':
@@ -47,6 +50,7 @@ int main(int argc, char const *argv[])
             break;
         case Q3:
             printf("Q3 - %c\n", fita[i]);
+            lex[i] = fita[i];
             switch (fita[i])
             {
             case '*':
@@ -60,6 +64,7 @@ int main(int argc, char const *argv[])
             break;
         case Q4:
             printf("Q4 - %c\n", fita[i]);
+            lex[i] = fita[i];
             switch (fita[i])
             {
             case '*':
@@ -79,11 +84,11 @@ int main(int argc, char const *argv[])
 
     if (state == Q5 && isAccepted == ACCEPT)
     {
-        printf("\n%s\n", fita);
+        printf("\n%s\n", lex);
         printf("> ACCEPTED\n");
         return 0;
     }
-    printf("\n%s\n", fita);
+    printf("\n%s\n", lex);
     printf("> REJECTED\n");
     return 0;
 }
