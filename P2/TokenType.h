@@ -116,18 +116,53 @@ int getTokenType(char *type)
     regcomp(&id, "^[a-zA-Z]", REG_EXTENDED | REG_NOSUB);
     regcomp(&num, "^[0-9]", REG_EXTENDED | REG_NOSUB);
 
-    if (strcmp(type, "read") == 0)
-        return READ;
-
+    // Symbols
+    if (strcmp(type, ";") == 0)
+        return SEMICOLON;
     if (strcmp(type, ":=") == 0)
         return ASSIGN;
+    if (strcmp(type, "(") == 0)
+        return BRACKET_OPEN;
+    if (strcmp(type, ")") == 0)
+        return BRACKET_CLOSE;
 
+    // Logic operators
+    if (strcmp(type, "=") == 0)
+        return EQUAL;
+    if (strcmp(type, "<") == 0)
+        return LOWER;
+
+    // Arithmetic operators
     if (strcmp(type, "+") == 0)
         return ADD;
+    if (strcmp(type, "-") == 0)
+        return SUB;
+    if (strcmp(type, "*") == 0)
+        return MUL;
+    if (strcmp(type, "/") == 0)
+        return DIV;
 
+    // Keywords
+    if (strcmp(type, "if") == 0)
+        return IF;
+    if (strcmp(type, "then") == 0)
+        return THEN;
+    if (strcmp(type, "else") == 0)
+        return ELSE;
+    if (strcmp(type, "end") == 0)
+        return END;
+    if (strcmp(type, "read") == 0)
+        return READ;
+    if (strcmp(type, "repeat") == 0)
+        return REPEAT;
+    if (strcmp(type, "until") == 0)
+        return UNTIL;
+    if (strcmp(type, "writ") == 0)
+        return WRITE;
+
+    // Others
     if ((regexec(&id, type, 0, NULL, 0)) == 0)
         return VAR;
-
     if ((regexec(&num, type, 0, NULL, 0)) == 0)
         return NUM;
 
