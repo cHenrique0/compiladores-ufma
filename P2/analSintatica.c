@@ -172,96 +172,9 @@ void GLC(tokenType *tokens, size_t length)
         else if(verifyExpArr()!=0){
         }
         else if(verifyOpArr()!=0){
+        }else{
+            printf("Error na linha: %d, valor inesperado\n", actualTokenType.row, actualTokenType.token);
         }
-        // <write> → write identifier
-        
-        
-        // else if (actualTokenType.type == WRITE)
-        // {
-        //     if (actualTokenType.row != tokens[i].row)
-        //     {
-        //         printf("\n%s -> ERROR\n", tokens[i - 1].token);
-        //     }
-        //     else if (tokens[i].type == VAR)
-        //     {
-        //         printf("\n%s -> MATCH\n", tokens[i - 1].token);
-        //         printf("%s -> MATCH\n", tokens[i].token);
-        //     }
-        //     else
-        //     {
-        //         printf("\nERROR: Expected VAR after '%s'\n", tokens[i - 1].token);
-        //         printf("LINE: %d\n", tokens[i - 1].row);
-        //     }
-        // }
-
-
-        // <assign> → identifier := <arithmetic exp>
-        /* else if (tokens[i].type == ASSIGN)
-        {
-            if (tokens[i - 1].row != tokens[i].row)
-            {
-                printf("\n%s -> ERROR\n", tokens[i - 1].token);
-            }
-            else if (tokens[i].type == VAR || tokens[i].type == NUM)
-            {
-                if (tokens[i].row != tokens[i + 1].row)
-                {
-                    printf("\n%s -> ERROR\n", tokens[i - 1].token);
-                }
-                else if (tokens[i + 1].type == ASSIGN)
-                {
-                }
-            }
-        } */
-        // <arithmetic exp> → <operating> {<arithmetic op> <operating>}
-    //     else if (actualTokenType.type == NUM)
-    //     {   
-    //         if (nextTokenType.type == ADD || nextTokenType.type == SUB || nextTokenType.type == MUL || nextTokenType.type == DIV)
-    //         {
-    //             if (nextTokenType.row != tokens[i + 1].row)
-    //             {
-    //                 printf("\n%s -> ERROR\n", nextTokenType.token);
-    //             }
-    //             else if (tokens[i + 1].type == NUM || tokens[i + 1].type == VAR)
-    //             {
-    //                 printf("\n%s -> MATCH\n", tokens[i - 1].token);
-    //                 printf("%s -> MATCH\n", nextTokenType.token);
-    //                 printf("%s -> MATCH\n", tokens[i + 1].token);
-    //             }
-    //             else
-    //             {
-    //                 printf("\nERROR: Expected NUM or VAR after '%s'\n", nextTokenType.token);
-    //                 printf("LINE: %d\n", nextTokenType.row);
-    //             }
-    //         }
-    //         else
-    //         {
-    //             printf("\nERROR: Expected '+', '-', '*' or '/' after '%s'\n", tokens[i - 1].token);
-    //             printf("LINE: %d\n", tokens[i - 1].row);
-    //         }
-    //     }
-    //     // <operating> → identifier | num
-    //     else if (actualTokenType.type == NUM || actualTokenType.type == VAR)
-    //     {
-    //         printf("\n%s -> MATCH\n", tokens[i - 1].token);
-    //     }
-    //     // <arithmetic op> → + | *
-    //     else if (actualTokenType.type == ADD || actualTokenType.type == MUL)
-    //     {
-    //         if (tokens[i - 1].row != nextTokenType.row)
-    //         {
-    //             printf("\n%s -> ERROR\n", tokens[i - 1].token);
-    //         }
-    //         else if (nextTokenType.type == NUM || nextTokenType.type == VAR)
-    //         {
-    //             printf("\n%s -> MATCH\n", tokens[i - 1].token);
-    //             printf("%s -> MATCH\n", nextTokenType.token);
-    //         }
-    //         else
-    //         {
-    //             printf("\nERROR: Expected NUM or VAR after '%s'\n", tokens[i - 1].token);
-    //             printf("LINE: %d\n", tokens[i - 1].row);
-    //         }
-    //     }
+       
     }
 }
