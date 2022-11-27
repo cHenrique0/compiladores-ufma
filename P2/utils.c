@@ -1,0 +1,1 @@
+#define SIZEOF(a) sizeof(a) / sizeof(*a)
