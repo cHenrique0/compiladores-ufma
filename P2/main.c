@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "./TokenType.h"
 #include "./utils.c"
-#include "./analLex.c"
+#include "./analSintatica.c"
 
 // Panic Mode
 /*
@@ -28,9 +28,18 @@ int main(int argc, char const *argv[])
     FILE *file = fopen("./teste.txt", "r");
     char ch;
     int countLines = 0;
-    char line[100];
+    int lineLenght = 100;
+    char line[lineLenght];
     char *token;
-    tokenType tokens[15];
+    int tokenLenght = 100;
+    tokenType tokens[tokenLenght];
+
+    for (int i = 0; i < tokenLenght; i++)
+    {
+        tokens[i].row = -1;
+        tokens[i].type = EMPTY;
+        tokens[i].token = NULL;
+    }
 
     if (file == NULL)
     {
@@ -42,17 +51,47 @@ int main(int argc, char const *argv[])
         while (fgets(line, sizeof(line), file) != NULL)
         {
             countLines++;
+            char tokenTemp[] = "";
+            int countTokenTemp = 0;
+            char *palavra = malloc(sizeof(char) * 100);
+            int shouldBeSave = 1;
 
-            token = strtok(line, " ");
-
-            while (token != NULL)
+            for (int j = 0; j < lineLenght; j++)
             {
-                token[strcspn(token, "\n")] = '\0';
-                tokens[i].token = strdup(token);
-                tokens[i].type = getTokenType(token);
-                tokens[i].row = countLines;
-                token = strtok(NULL, " ");
-                i++;
+                if(line[j] == '\000') {
+                    shouldBeSave = 0;
+                    break;
+                }
+                
+                if(line[j] != ' ' && line[j] != '\n')
+                {
+                    palavra[countTokenTemp] = line[j];
+                    countTokenTemp++;
+
+                    shouldBeSave = 0;
+
+                    if(line[j+1] == '\000')
+                    {
+                        shouldBeSave = 1;
+                    }
+                }
+                else if(line[j] == ' ' || line[j] == '\n')
+                {
+                    shouldBeSave = 1;
+                }
+
+                if( palavra[0] == '\000') shouldBeSave = 0;
+
+                if(shouldBeSave){
+                    palavra[countTokenTemp] = '\0';
+                    tokens[i].type = getTokenType(palavra);
+                    tokens[i].token = strdup(palavra);
+                    tokens[i].row = countLines;
+                    countTokenTemp = 0;
+                    palavra[0] = '\0';
+                    shouldBeSave = 0;
+                    i++;
+                }
             }
         }
     }

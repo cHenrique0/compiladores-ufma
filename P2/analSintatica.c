@@ -13,34 +13,35 @@ tokenType lastTokenType;
 // := x 
 // x := 
 int verifyAssign(){
-
     if(actualTokenType.type == ASSIGN)
     {
+        // := 5
         // := 
-        if(actualTokenType.row != nextTokenType.row)
+        if(actualTokenType.row != nextTokenType.row || actualTokenType.row != lastTokenType.row)
         {
-            printf("Error na linha: %d, valor invalido %s esperado um VAR ou NUM/\n", actualTokenType.row, actualTokenType.token);
+            printf("Error na linha: %d, valor invalido %s apos eh esperado um VAR ou NUM\n", actualTokenType.row, actualTokenType.token);
             return -1;
         }
-        // := x
-        // := 10
+        // := (x | 10)
         else if(nextTokenType.type == VAR || nextTokenType.type == NUM)
         {
             return 1;
         }
         
-        printf("Error na linha: %d, valor invalido %s esperado um VAR ou NUM/\n", actualTokenType.row, actualTokenType.token);
+        printf("Error na linha: %d, valor invalido %s apos eh esperado um VAR ou NUM\n", actualTokenType.row, actualTokenType.token);
         return -1;
     }
-    // x := 
-    else if(nextTokenType.type == ASSIGN)
+    else if(actualTokenType.type == VAR)
     {
-        if(actualTokenType.type != VAR){
-            printf("Error na linha: %d, valor invalido %s esperado um VAR/\n", actualTokenType.row, actualTokenType.token);
+        if(lastTokenType.row != actualTokenType.row && nextTokenType.type != ASSIGN)
+        {
+            printf("Error na linha: %d, valor invalido %s apos eh esperado :=\n", actualTokenType.row, actualTokenType.token);
             return -1;
         }
-
-        return 1;
+        if(nextTokenType.type == ASSIGN)
+        {
+            return 1;
+        }
     }
 
     return 0;
@@ -50,16 +51,16 @@ int verifyAssign(){
 // (identificador | num) | (+|*) (identificador | num)
 // x
 // 5
-// (x | 5) (+ | *)
+// x =: (x | 5) (+ | *) (x | 5)
 int verifyExpArr()
 {
-    
     // (x | 5) (+ | *)
     // (x | 5)
     if(actualTokenType.type == VAR || actualTokenType.type == NUM)
     {
         // (x | 5) (+ | *)
-        if(lastTokenType.type == EMPTY){
+        if(actualTokenType.row != lastTokenType.row)
+        {
             printf("Error na linha: %d, valor invalido %s esperado :=\n", actualTokenType.row, actualTokenType.token);
             return -1;
         }
@@ -86,7 +87,8 @@ int verifyOpArr()
     // (+ | *) (num | var)
     if(actualTokenType.type == MUL || actualTokenType.type == ADD)
     {
-        if(actualTokenType.row != nextTokenType.row){
+        if(actualTokenType.row != nextTokenType.row || actualTokenType.row != lastTokenType.row)
+        {
             // (+ | *) 
             printf("Error na linha: %d, valor invalido %s esperado VAR OU NUM\n", actualTokenType.row, actualTokenType.token);
             return -1;
@@ -143,6 +145,8 @@ void GLC(tokenType *tokens, size_t length)
         nextTokenType;
         lastTokenType;
 
+        if(actualTokenType.token == NULL) break;
+
         nextTokenType.row = -1;
         nextTokenType.type = EMPTY;
         nextTokenType.token = NULL;
@@ -163,6 +167,7 @@ void GLC(tokenType *tokens, size_t length)
             printf("LINE: %d\n", actualTokenType.row);
         }
         // <read> → read identifier
+
         else if (verifyRead()!=0){
         }
         else if (verifyWrite()!=0){
