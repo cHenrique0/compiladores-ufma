@@ -168,21 +168,28 @@ int getTokenType(char *type)
     // if ((regexec(&num, type, 0, NULL, 0)) == 0)
     //     return NUM;
 
-    int isLetter = 1;
-    int isNum = 1;
-    for (int i = 0; type[i] != '\0'; i++) { //sem strlen que seria péssimo
-        if (type[i] < 'a' || type[i] > 'z') { //lógica mais adequada
-            isLetter = 0;
-            break;
+    int isVar = 0;
+    int isNum = 0;
+    if(type[0] >= 'a' && type[0] <= 'z'){
+        isVar = 1;
+        for (int i = 1; type[i] != '\0'; i++) {
+            if ((type[i] >= 'a' && type[i] <= 'z') || (type[i] >= '0' && type[i] <= '9') || type[i] == '_') {
+                isVar = 1;
+            }else{
+                isVar = 0;
+                break;
+            }
         }
     }
+    
+    if(isVar == 1) return VAR;
 
-    if(isLetter == 1) return VAR;
-
-    for (int i = 0; type[i] != '\0'; i++) { //sem strlen que seria péssimo
-        if (type[i] < '0' || type[i] > '9') { //lógica mais adequada
+    for (int i = 0; type[i] != '\0'; i++) { 
+        if ((type[i] >= '0' && type[i] <= '9')) { 
+            isNum = 1;
+        }else{
             isNum = 0;
-            break; //encerra o laço, não tem porque continuar, achou algo que não muda mais
+            break;
         }
     }
 

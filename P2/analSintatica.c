@@ -61,7 +61,7 @@ int verifyExpArr()
         // (x | 5) (+ | *)
         if(actualTokenType.row != lastTokenType.row)
         {
-            printf("Error na linha: %d, valor invalido %s esperado :=\n", actualTokenType.row, actualTokenType.token);
+            printf("Error na linha: %d, valor invalido %s esperado *, + \n", actualTokenType.row, actualTokenType.token);
             return -1;
         }
         else if(actualTokenType.row == nextTokenType.row)
