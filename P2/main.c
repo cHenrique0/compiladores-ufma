@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "./TokenType.h"
 #include "./utils.c"
-#include "./analLex.c"
+#include "./analSintatica.c"
 
 // Panic Mode
 /*
@@ -30,7 +30,14 @@ int main(int argc, char const *argv[])
     int countLines = 0;
     char line[100];
     char *token;
-    tokenType tokens[15];
+    tokenType tokens[100];
+
+    for (int i = 0; i < 100; i++)
+    {
+        tokens[i].row = -1;
+        tokens[i].type = EMPTY;
+        tokens[i].token = NULL;
+    }
 
     if (file == NULL)
     {
